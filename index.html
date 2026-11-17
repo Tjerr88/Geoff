@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="nl">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Ultieme Geoff Clean &amp; Press</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#101512;color:#eef2ee;font:16px system-ui,sans-serif}main{width:min(100% - 2rem,36rem);margin:2rem auto}h1{font-size:clamp(1.5rem,5vw,2.25rem);line-height:1.1}h2{font-size:clamp(1.45rem,6vw,2.4rem);margin:.5rem 0}section,details{background:#1c2520;border:1px solid #39483d;border-radius:1rem;padding:1.2rem;margin:1rem 0}summary{cursor:pointer;font-weight:700}form{display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin-top:1rem}.wide{grid-column:1/-1}label{display:grid;gap:.3rem}label[hidden], [hidden]{display:none!important}input,select,button{font:inherit;border-radius:.5rem;padding:.65rem;color:inherit;background:#111a14;border:1px solid #58675a;min-width:0}button{cursor:pointer}button:disabled{opacity:.45;cursor:default}button.primary{background:#c9f66f;color:#15210b;font-weight:750;border-color:transparent}.actions{display:flex;flex-wrap:wrap;gap:.55rem}.muted{color:#b8c7bb}#clock{font-size:clamp(3rem,12vw,5rem);font-weight:750;line-height:1.1;font-variant-numeric:tabular-nums;margin:.7rem 0}p{margin:.65rem 0}a,summary:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible{outline-offset:4px}#testReps{width:8rem}#testLabel{margin:.75rem 0}
+</style>
+<main>
+<h1>Ultieme Geoff Clean &amp; Press</h1>
+<details id="settings"><summary>Instellingen</summary>
+<form id="config">
+<label class="wide">Programma<select id="program">
+<optgroup label="Clean &amp; Press">
+<option value="g10">The Giant 1.0</option><option value="g11">The Giant 1.1</option><option value="g12">The Giant 1.2</option><option value="g2">The Giant 2</option><option value="g3">The Giant 3.0</option>
+<option value="easy">Easy Muscle — Schedule A</option><option value="simple">A Simple Strength Program</option>
+<option value="s1">Strong! — Fase 1</option><option value="s2">Strong! — Fase 2</option><option value="s3">Strong! — Fase 3</option>
+</optgroup><optgroup label="Clean &amp; Jerk">
+<option value="lc">Long Cycle</option><option value="lc2">Long Cycle 2.0</option>
+</optgroup></select></label>
+<label>Week<select id="week"></select></label>
+<label>Dag<select id="day"></select></label>
+<label id="durationLabel">Duur (min)<select id="duration"><option>20</option><option>30</option></select></label>
+<label><span id="weightLabel">10RM (kg)</span><input id="weight" type="number" min="0.01" step="any" inputmode="decimal"></label>
+<label class="wide" id="dfsLabel"><span><input id="dfs" type="checkbox"> Double Front Squat</span></label>
+</form></details>
+<section aria-labelledby="instruction">
+<div id="session" class="muted"></div>
+<h2 id="instruction" aria-live="polite"></h2>
+<p id="prescription"></p><p id="guidance" class="muted"></p>
+<p id="clock" role="timer"></p>
+<p id="progress" class="muted"></p>
+<label id="testLabel" hidden>Behaalde reps<input id="testReps" type="number" min="1" step="1" inputmode="numeric"></label>
+<div class="actions">
+<button class="primary" id="start">Start</button>
+<button class="primary" id="done" hidden>Set klaar</button>
+<button id="variant" hidden></button>
+<button id="finish" hidden>Afronden</button>
+<button id="reset" hidden>Opnieuw</button>
+<button class="primary" id="next" hidden>Volgende training</button>
+</div>
+</section>
+</main>
+<script>
+'use strict';
+const $ = id => document.getElementById(id);
+const names = Object.fromEntries([...$('program').options].map(o => [o.value,o.text]));
+const giant = {g10:[[5],[6],[4]],g11:[[6],[8],[7]],g12:[[7],[9],[8]],g2:[[3,4,5],[3,5,7],[4,6,8]],g3:[[2],[3],[1]]};
+const simple = [[[1,2,3],[1],[2]],[[1,2,3],[1],[3]],[[1,2,3,4],[2],[3]],[[1,2,3,4,5],[2],[3,4]]];
+const long = {lc:[[[1,2,3,4,5],[1,2,3],[1,2,3,4]],[[3,6,9],[3,6],[3,6,9,12]],[[9],[15],[12]]],lc2:[[[10],[20],[15]],[[12],[24],[18]],[[15],[30],[20]]]};
+const strong = {
+ s1:['10x1 5x2 10x1','6x2 10x1 7x2','10x1 8x2 10x1','9x2 10x1 5x3','10x2 6x3 10x2','7x3 10x2 8x3','10x2 9x3 10x2','10x3 10x2 RM'],
+ s2:['10x3 5x4 10x3','6x4 10x3 7x4','10x3 8x4 10x3','9x4 10x3 10x4','10x3 5x5 10x4','10x3 6x5 10x4','10x3 7x5 10x4','10x3 8x5 10x4','10x3 9x5 10x4','10x3 10x5 5x6','10x4 10x5 6x6','10x4 10x5 7x6','10x4 10x5 8x6','10x4 10x5 9x6','10x4 10x5 10x6','10x4 10x5 RM'],
+ s3:Array(5).fill('10x6 10x6 10x6')
+};
+const squats = {
+ s1:[[0,5,0],[3,5,3],[5,3,5],[3,5,3],[5,3,5],[3,5,3],[5,3,5],[3,5,0]],
+ s2:[[5,3,5],[3,5,3],[5,3,5],[3,5,3],[5,3,5],[3,5,3],[5,3,5],[5,3,5],[5,3,5],...Array(7).fill([5,5,3])],
+ s3:Array(5).fill([5,5,5])
+};
+const weeks = {g10:4,g11:4,g12:4,g2:4,g3:4,easy:8,simple:5,s1:8,s2:16,s3:5,lc:9,lc2:9};
+const transitions = {g3:'g10',g10:'g11',g11:'g12',s1:'s2',s2:'s3'};
+const defaults = {program:'g10',week:1,day:1,duration:20,dfs:false,weights:{},last:null};
+const storageKey = 'geoff-training-v1';
+let prefs = {...defaults};
+try { prefs = {...defaults,...JSON.parse(localStorage.getItem(storageKey))}; } catch {}
+const save = () => {try {localStorage.setItem(storageKey,JSON.stringify(prefs));} catch {}};
+const dayCount = (p,w) => p==='simple' && w===5 ? 2 : 3;
+const weightKey = p => giant[p] && p!=='g3' ? 'giant10' : strong[p] ? 'strong' : p;
+function plan(p,w,d,minutes,includeDfs) {
+  const i=d-1, j=w-1;
+  const base={exercise:'Clean & Press',rm:'10RM',seconds:minutes*60,rest:0,reps:[1],limit:0,dfs:0,guidance:'Rust naar behoefte.'};
+  if(giant[p]) return {...base,reps:giant[p][i],rm:p==='g3'?'5RM':'10RM'};
+  if(p==='easy') return {...base,reps:[(w<=4?[5,6,4]:[6,7,5])[i]],guidance:'RPE '+[7,8,'8,5',9][j%4]+' · Stop als tempo of techniek verandert.'};
+  if(p==='simple') {
+    const s={...base,rm:'5RM',pair:true,seconds:1800,guidance:'Rust tussen beide oefeningen. Vertraag je? Rust langer.'};
+    if(w<5) return {...s,reps:simple[j][i],choice:w===4 && d!==2};
+    return {...s,seconds:0,reps:[3],limit:6,test:d===2,pair:d===1};
+  }
+  if(long[p]) return {...base,exercise:'Clean & Jerk',seconds:1200,reps:long[p][Math.floor(j/3)][i],perHand:true,rm:p==='lc'?'7–8RM per hand':'Min. 25 reps per hand',guidance:p==='lc2'?'Eén kettlebell. Rust tussen sets.':'Eén kettlebell. Rust naar behoefte.'};
+  const entry=strong[p][j].split(' ')[i];
+  const [limit,reps]=entry.split('x').map(Number);
+  const rest=p==='s2'?120:p==='s3'?120-10*(j+i):0;
+  return {...base,rm:'C&P-gewicht',seconds:0,test:entry==='RM',limit,reps:[reps],rest,dfs:includeDfs?squats[p][j][i]:0,guidance:''};
+}
+const fresh = () => ({status:'ready',sets:0,total:0,deadline:0,restUntil:0,extra:false,test:0});
+let run=fresh();
+function current() {return plan(prefs.program,prefs.week,prefs.day,prefs.duration,prefs.dfs);}
+function options(id,size,value) {
+  $(id).replaceChildren(...Array.from({length:size},(_,i)=>new Option(i+1,i+1)));
+  $(id).value=value;
+}
+function syncSettings() {
+  const p=prefs.program;
+  $('program').value=p;
+  options('week',weeks[p],prefs.week);
+  options('day',dayCount(p,prefs.week),prefs.day);
+  $('duration').value=prefs.duration;
+  $('durationLabel').hidden=!(giant[p]||p==='easy');
+  $('dfsLabel').hidden=!strong[p];
+  $('dfs').checked=prefs.dfs;
+  $('weightLabel').textContent=current().rm+' (kg)';
+  $('weight').value=prefs.weights[weightKey(p)]??'';
+}
+function movement(p) {
+  const step=p.pair?Math.floor(run.sets/2):run.sets;
+  const dfs=p.dfs && run.sets>=(p.test?1:p.limit);
+  let sequence=p.reps;
+  if(p.choice && !run.extra) sequence=prefs.day===1?p.reps.slice(0,4):[3];
+  return {exercise:dfs?'Double Front Squat':p.pair && run.sets%2?'Front Squat':p.exercise,
+    reps:dfs?p.dfs:sequence[step%sequence.length],dfs};
+}
+function following() {
+  const {program:p,week:w,day:d}=prefs;
+  if(d<dayCount(p,w)) return [p,w,d+1];
+  if(w<weeks[p]) return [p,w+1,1];
+  if(transitions[p]) return [transitions[p],1,1];
+  return null;
+}
+function secondsLeft(until) {return Math.max(0,Math.ceil((until-Date.now())/1000));}
+function timeLabel(seconds) {return Math.floor(seconds/60)+':'+String(seconds%60).padStart(2,'0');}
+function complete() {
+  run.status='complete';
+  const next=following();
+  prefs.last={program:prefs.program,week:prefs.week,day:prefs.day,sets:run.sets,reps:run.total,test:run.test,next};
+  if(next) [prefs.program,prefs.week,prefs.day]=next;
+  save();
+}
+function show() {
+  const result=run.status==='complete'?prefs.last:null;
+  const p=result?plan(result.program,result.week,result.day,prefs.duration,prefs.dfs):current();
+  const m=movement(p);
+  const active=run.status==='active';
+  const rest=secondsLeft(run.restUntil);
+  const left=run.deadline?secondsLeft(run.deadline):p.seconds;
+  if(active && run.deadline && left===0){if(run.sets){complete();show();}else ready(false);return;}
+  const test=p.test && run.sets===0;
+  const cap=p.test?1:p.limit;
+  const weight=prefs.weights[weightKey(prefs.program)];
+  const phase=long[prefs.program]?' · Fase '+Math.ceil(prefs.week/3):'';
+  $('session').textContent=result?names[result.program]+' · Week '+result.week+' · Dag '+result.day:
+    names[prefs.program]+phase+' · Week '+prefs.week+' · Dag '+prefs.day;
+  $('instruction').textContent=result?'Training klaar':rest?'Rust':test?'Test je '+(prefs.program==='simple'?'Press-RM':'Clean & Press Rep Max'):
+    'Doe '+m.reps+' × '+m.exercise+(p.perHand?' per hand':'');
+  const prescription=[];
+  if(!result){
+    if(!m.dfs) prescription.push((weight?weight+' kg · ':'')+p.rm);
+    if(m.dfs) prescription.push('3 sets van '+m.reps);
+    else if(p.limit) prescription.push(p.pair?'3 × 3 per oefening':p.limit+' sets van '+p.reps[0]);
+    else if(p.reps.length>1) prescription.push(p.reps.join(' → ')+(p.choice?' · laatste trede optioneel':''));
+  }
+  $('prescription').textContent=prescription.join(' · ');
+  $('guidance').textContent=result?'':test && prefs.program==='simple'?'Gebruik hetzelfde gewicht of ga zwaarder.':m.dfs?'Rust naar behoefte.':p.rest?p.rest+' sec rust tussen C&P-sets.':p.guidance;
+  $('clock').hidden=!!result||!(rest||p.seconds);
+  $('clock').textContent=timeLabel(rest||left);
+  const count=m.dfs?run.sets-cap:run.sets;
+  $('progress').textContent=result?result.sets+' sets · '+result.reps+' reps'+(result.test?' · RM '+result.test+' reps':''):
+    active && !test ? count+(m.dfs?' / 3':p.limit?' / '+p.limit:'')+' sets · '+run.total+' reps':'';
+  $('testLabel').hidden=!(active&&test);
+  $('config').querySelectorAll('input,select').forEach(el=>el.disabled=active);
+  $('settings').hidden=!!result;
+  $('start').hidden=run.status!=='ready';
+  $('done').hidden=!active;
+  $('done').disabled=!!rest;
+  $('done').textContent=test?'RM opslaan':'Set klaar';
+  $('variant').hidden=!(active&&p.choice);
+  $('variant').textContent=prefs.day===1?(run.extra?'Ladder zonder 5':'Voeg trede 5 toe'):(run.extra?'Alleen sets van 3':'Wissel 3 en 4 af');
+  $('finish').hidden=!(active&&p.seconds);
+  $('reset').hidden=run.status==='ready';
+  $('reset').textContent=result?'Instellingen':'Annuleren';
+  $('next').hidden=!result?.next;
+  if(result?.next) $('next').textContent=result.next[0]!==result.program?'Naar '+names[result.next[0]]:'Volgende training';
+}
+$('config').addEventListener('submit',e=>e.preventDefault());
+$('config').addEventListener('change',e=>{
+  if(run.status!=='ready')return;
+  const id=e.target.id;
+  if(id==='program'){prefs.program=e.target.value;prefs.week=1;prefs.day=1;}
+  if(id==='week'){prefs.week=Number(e.target.value);prefs.day=Math.min(prefs.day,dayCount(prefs.program,prefs.week));}
+  if(id==='day'||id==='duration')prefs[id]=Number(e.target.value);
+  if(id==='dfs')prefs.dfs=e.target.checked;
+  if(id==='weight' && e.target.checkValidity())prefs.weights[weightKey(prefs.program)]=e.target.valueAsNumber||null;
+  save();syncSettings();show();
+});
+$('start').onclick=()=>{
+  const p=current();
+  run={...fresh(),status:'active',deadline:p.seconds?Date.now()+p.seconds*1000:0};
+  $('settings').open=false;
+  $('testReps').value='';
+  show();
+};
+$('done').onclick=()=>{
+  if(run.status!=='active'||secondsLeft(run.restUntil))return;
+  if(run.deadline && !secondsLeft(run.deadline)){show();return;}
+  const p=current(), m=movement(p), testing=p.test && run.sets===0;
+  if(testing){
+    if(!$('testReps').value||!$('testReps').reportValidity()){$('testReps').focus();return;}
+    run.test=$('testReps').valueAsNumber;
+  }
+  run.sets++;
+  run.total+=testing?run.test:m.reps*(p.perHand?2:1);
+  const max=p.test?1:p.limit;
+  if(max && run.sets>=max+(p.dfs?3:0))complete();
+  else if(p.rest && !testing && run.sets<max)run.restUntil=Date.now()+p.rest*1000;
+  show();
+};
+$('variant').onclick=()=>{run.extra=!run.extra;show();};
+$('finish').onclick=()=>{if(run.sets){complete();show();}else $('reset').click();};
+function ready(openSettings) {
+  run=fresh();
+  syncSettings();
+  $('settings').open=openSettings;
+  show();
+}
+$('reset').onclick=()=>{if(run.status==='active' && !confirm('Training annuleren?'))return;ready(true);};
+$('next').onclick=()=>ready(prefs.last?.program==='g3' && prefs.program==='g10' && !prefs.weights.giant10);
+syncSettings();show();
+setInterval(()=>{if(run.status==='active')show();},250);
+</script>
+</html>
+
+
