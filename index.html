@@ -1,43 +1,43 @@
 <!doctype html>
-<html lang="nl">
+<html lang="en">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Ultieme Geoff Clean &amp; Press</title>
+<title>Ultimate Geoff</title>
 <style>
 *{box-sizing:border-box}body{margin:0;background:#101512;color:#eef2ee;font:16px system-ui,sans-serif}main{width:min(100% - 2rem,36rem);margin:2rem auto}h1{font-size:clamp(1.5rem,5vw,2.25rem);line-height:1.1}h2{font-size:clamp(1.45rem,6vw,2.4rem);margin:.5rem 0}section,details{background:#1c2520;border:1px solid #39483d;border-radius:1rem;padding:1.2rem;margin:1rem 0}summary{cursor:pointer;font-weight:700}form{display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin-top:1rem}.wide{grid-column:1/-1}label{display:grid;gap:.3rem}label[hidden], [hidden]{display:none!important}input,select,button{font:inherit;border-radius:.5rem;padding:.65rem;color:inherit;background:#111a14;border:1px solid #58675a;min-width:0}button{cursor:pointer}button:disabled{opacity:.45;cursor:default}button.primary{background:#c9f66f;color:#15210b;font-weight:750;border-color:transparent}.actions{display:flex;flex-wrap:wrap;gap:.55rem}.muted{color:#b8c7bb}#clock{font-size:clamp(3rem,12vw,5rem);font-weight:750;line-height:1.1;font-variant-numeric:tabular-nums;margin:.7rem 0}p{margin:.65rem 0}a,summary:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible{outline-offset:4px}#testReps{width:8rem}#testLabel{margin:.75rem 0}
 </style>
 <main>
-<h1>Ultieme Geoff Clean &amp; Press</h1>
-<details id="settings"><summary>Instellingen</summary>
+<h1>Ultimate Geoff</h1>
+<details id="settings"><summary>Settings</summary>
 <form id="config">
-<label class="wide">Programma<select id="program">
+<label class="wide">Program<select id="program">
 <optgroup label="Clean &amp; Press">
 <option value="g10">The Giant 1.0</option><option value="g11">The Giant 1.1</option><option value="g12">The Giant 1.2</option><option value="g2">The Giant 2</option><option value="g3">The Giant 3.0</option>
 <option value="easy">Easy Muscle — Schedule A</option><option value="simple">A Simple Strength Program</option>
-<option value="s1">Strong! — Fase 1</option><option value="s2">Strong! — Fase 2</option><option value="s3">Strong! — Fase 3</option>
-</optgroup><optgroup label="Clean &amp; Jerk">
+<option value="s1">Strong! — Phase 1</option><option value="s2">Strong! — Phase 2</option><option value="s3">Strong! — Phase 3</option>
+</optgroup><optgroup label="Single kettlebell">
 <option value="lc">Long Cycle</option><option value="lc2">Long Cycle 2.0</option>
-</optgroup></select></label>
+<option value="ksk">King-Sized Killer</option><option value="ksk2">King-Sized Killer 2.0</option><option value="mkm10">MKM — More Core.</option></optgroup><optgroup label="Double kettlebell"><option value="km1">Kettlebell Muscle — Phase 1</option><option value="km0">Kettlebell Muscle — Phase 0 (optional)</option><option value="km2">Kettlebell Muscle — Phase 2</option><option value="mkm1">MKM — The Shoulder Smoker</option><option value="mkm2">MKM — The Olympic 3.0</option><option value="mkm3">MKM — The Basic</option><option value="mkm4">MKM — The Long Haul</option><option value="mkm5">MKM — The Up and Over</option><option value="mkm6">MKM — Clean ‘Em Up</option><option value="mkm7">MKM — Ballistic Beatdown</option><option value="mkm8">MKM — The Wolf</option><option value="mkm9">MKM — The “A &amp; P</option><option value="mkm11">MKM — Oh Row You Don’t!</option><option value="mkm12">MKM — Clean ‘Em Up” 2.0</option><option value="mkm13">MKM — Lucky 13</option><option value="mkm14">MKM — Oh Row You Don’t, 2.0</option><option value="mkm15">MKM — You Don’t Know Squat 2.0</option><option value="mkm16">MKM — Sir Snatch-a-lot</option><option value="mkm17">MKM — The Upper Back Attack</option><option value="mkm18">MKM — The Universe</option><option value="mkm19">MKM — Jerk Werk</option><option value="mkm20">MKM — Herky Jerky</option></optgroup></select></label>
 <label>Week<select id="week"></select></label>
-<label>Dag<select id="day"></select></label>
-<label id="durationLabel">Duur (min)<select id="duration"><option>20</option><option>30</option></select></label>
+<label>Day<select id="day"></select></label>
+<label id="durationLabel">Duration (min)<select id="duration"><option>20</option><option>30</option></select></label>
 <label><span id="weightLabel">10RM (kg)</span><input id="weight" type="number" min="0.01" step="any" inputmode="decimal"></label>
 <label class="wide" id="dfsLabel"><span><input id="dfs" type="checkbox"> Double Front Squat</span></label>
 </form></details>
 <section aria-labelledby="instruction">
 <div id="session" class="muted"></div>
 <h2 id="instruction" aria-live="polite"></h2>
-<p id="prescription"></p><p id="guidance" class="muted"></p>
+<ol id="complex" hidden></ol><p id="prescription"></p><p id="guidance" class="muted"></p>
 <p id="clock" role="timer"></p>
 <p id="progress" class="muted"></p>
-<label id="testLabel" hidden>Behaalde reps<input id="testReps" type="number" min="1" step="1" inputmode="numeric"></label>
+<label id="testLabel" hidden>Reps completed<input id="testReps" type="number" min="1" step="1" inputmode="numeric"></label>
 <div class="actions">
 <button class="primary" id="start">Start</button>
-<button class="primary" id="done" hidden>Set klaar</button>
+<button class="primary" id="done" hidden>Set complete</button>
 <button id="variant" hidden></button>
-<button id="finish" hidden>Afronden</button>
-<button id="reset" hidden>Opnieuw</button>
-<button class="primary" id="next" hidden>Volgende training</button>
+<button id="finish" hidden>Finish</button>
+<button id="reset" hidden>Restart</button>
+<button class="primary" id="next" hidden>Next workout</button>
 </div>
 </section>
 </main>
@@ -48,6 +48,18 @@ const names = Object.fromEntries([...$('program').options].map(o => [o.value,o.t
 const giant = {g10:[[5],[6],[4]],g11:[[6],[8],[7]],g12:[[7],[9],[8]],g2:[[3,4,5],[3,5,7],[4,6,8]],g3:[[2],[3],[1]]};
 const simple = [[[1,2,3],[1],[2]],[[1,2,3],[1],[3]],[[1,2,3,4],[2],[3]],[[1,2,3,4,5],[2],[3,4]]];
 const long = {lc:[[[1,2,3,4,5],[1,2,3],[1,2,3,4]],[[3,6,9],[3,6],[3,6,9,12]],[[9],[15],[12]]],lc2:[[[10],[20],[15]],[[12],[24],[18]],[[15],[30],[20]]]};
+const single = {lc:long.lc,lc2:long.lc2,ksk:long.lc,ksk2:long.lc2};
+const muscle = {
+  km0:6, km1:6, km2:6
+};
+const medium = ['Double High Pull','Double Snatch','Double Military Press','Double Front Squat'];
+const easyDay = ['Double Swing','Double Snatch','See-Saw Press'];
+const heavy = ['Double Clean','Double Military Press','Double Front Squat','Double Push Press','Double Front Squat'];
+const musclePhase2 = [
+  ['Double High Pull','Double Clean + Military Press (1 clean + 1 press)','Double Snatch','Double Front Squat'],
+  easyDay,
+  ['Double Front Squat','Double Snatch','Double Military Press','Double Clean + Push Press (1 clean + 1 push press)','Double Front Squat']
+];
 const strong = {
  s1:['10x1 5x2 10x1','6x2 10x1 7x2','10x1 8x2 10x1','9x2 10x1 5x3','10x2 6x3 10x2','7x3 10x2 8x3','10x2 9x3 10x2','10x3 10x2 RM'],
  s2:['10x3 5x4 10x3','6x4 10x3 7x4','10x3 8x4 10x3','9x4 10x3 10x4','10x3 5x5 10x4','10x3 6x5 10x4','10x3 7x5 10x4','10x3 8x5 10x4','10x3 9x5 10x4','10x3 10x5 5x6','10x4 10x5 6x6','10x4 10x5 7x6','10x4 10x5 8x6','10x4 10x5 9x6','10x4 10x5 10x6','10x4 10x5 RM'],
@@ -58,30 +70,52 @@ const squats = {
  s2:[[5,3,5],[3,5,3],[5,3,5],[3,5,3],[5,3,5],[3,5,3],[5,3,5],[5,3,5],[5,3,5],...Array(7).fill([5,5,3])],
  s3:Array(5).fill([5,5,5])
 };
-const weeks = {g10:4,g11:4,g12:4,g2:4,g3:4,easy:8,simple:5,s1:8,s2:16,s3:5,lc:9,lc2:9};
-const transitions = {g3:'g10',g10:'g11',g11:'g12',s1:'s2',s2:'s3'};
+const mkm = {"mkm1": {"title": "The Shoulder Smoker", "days": [[["Swing", 6, "rep"], ["High Pull", 6, "rep"], ["Snatch", 6, "rep"], ["Press", 6, "rep"]], [["Snatch", 6, "rep"], ["Front Squat", 6, "rep"], ["Press", 6, "rep"]], [["Clean", 6, "rep"], ["Press", 6, "rep"], ["Front Squat", 6, "rep"], ["Snatch", 6, "rep"], ["Push Press", 6, "rep"]]], "weeks": [[3, 2.0], [4, 2.0], [5, 2.0], [4, 1.5], [5, 1.5], [6, 1.5]], "rm": "Press 12RM"}, "mkm2": {"title": "The Olympic 3.0", "days": [[["Front Squat", 5, "rep"], ["Press", 5, "rep"], ["Clean", 5, "rep"], ["Push Press", 5, "rep"]], [["Clean", 5, "rep"], ["Press", 5, "rep"], ["Snatch", 5, "rep"]], [["Front Squat", 5, "rep"], ["Clean", 5, "rep"], ["Press", 5, "rep"], ["Front Squat", 5, "rep"], ["Jerk", 5, "rep"]]], "weeks": [[4, 2.0], [5, 2.0], [4, 1.5], [5, 1.5], [4, 1.0], [5, 1.0]], "rm": ""}, "mkm3": {"title": "The Basic", "days": [[["Swing", 20, "sec"], ["Clean", 20, "sec"], ["Snatch", 20, "sec"]], [["Swing", 20, "sec"], ["Clean", 20, "sec"], ["Front Squat", 20, "sec"], ["Snatch", 20, "sec"]], [["Swing", 20, "sec"], ["Clean", 20, "sec"], ["Front Squat", 20, "sec"], ["Snatch", 20, "sec"], ["Press", 20, "sec"]]], "weeks": [[4, 2.0], [4, 1.5], [4, 1.0], [5, 2.0], [5, 1.5], [5, 1.0]], "rm": ""}, "mkm4": {"title": "The Long Haul", "days": [[["Snatch", 30, "sec"], ["Press", 30, "sec"], ["Front Squat", 30, "sec"], ["Swing", 30, "sec"]], [["Clean", 30, "sec"], ["Front Squat", 30, "sec"], ["Press", 30, "sec"], ["Snatch", 30, "sec"], ["Swing", 30, "sec"]], [["Snatch", 30, "sec"], ["Press", 30, "sec"], ["Swing", 30, "sec"]]], "weeks": [[3, 2.0], [4, 2.0], [5, 2.0], [3, 1.5], [4, 1.5], [5, 1.5], [4, 1.0], [5, 1.0], [6, 1.0]], "rm": ""}, "mkm5": {"title": "The Up and Over", "days": [[["Swing", 6, "rep"], ["High Pull", 6, "rep"], ["Snatch", 6, "rep"], ["Push Press", 6, "rep"]], [["High Pull", 6, "rep"], ["Snatch", 6, "rep"], ["Press", 6, "rep"], ["Front Squat", 6, "rep"]], [["Snatch", 6, "rep"], ["Press", 6, "rep"], ["Front Squat", 6, "rep"], ["Push Press", 6, "rep"]]], "weeks": [[4, 2.0], [4, 1.5], [4, 1.0], [5, 2.0], [5, 1.5], [5, 1.0], [6, 2.0], [6, 1.5], [6, 1.0]], "rm": ""}, "mkm6": {"title": "Clean ‘Em Up", "days": [[["Clean", 7, "rep"], ["Front Squat", 7, "rep"], ["Snatch", 7, "rep"], ["Press", 7, "rep"]], [["Clean", 7, "rep"], ["Press", 7, "rep"], ["Snatch", 7, "rep"], ["Front Squat", 7, "rep"], ["Press", 7, "rep"]], [["Clean", 7, "rep"], ["Press", 7, "rep"], ["Front Squat", 7, "rep"]]], "weeks": [[3, 2.0], [4, 2.0], [5, 2.0], [4, 2.0], [5, 2.0], [6, 2.0]], "rm": ""}, "mkm7": {"title": "Ballistic Beatdown", "days": [[["High Pull", 10, "rep"], ["Snatch", 10, "rep"], ["Push Press", 10, "rep"]], [["Swing", 10, "rep"], ["High Pull", 10, "rep"], ["Snatch", 10, "rep"], ["Front Squat", 5, "rep"], ["Jerk", 10, "rep"]], [["Snatch", 10, "rep"], ["High Pull", 10, "rep"], ["Swing", 10, "rep"]]], "weeks": [[3, 2.0], [4, 2.0], [5, 2.0], [3, 1.0], [4, 1.0], [5, 1.0]], "rm": ""}, "mkm8": {"title": "The Wolf", "days": [[["Clean", 5, "rep"], ["Front Squat", 5, "rep"], ["Press", 5, "rep"], ["Clean", 5, "rep"], ["Front Squat", 5, "rep"]], [["Front Squat", 5, "rep"], ["Press", 5, "rep"], ["Clean", 5, "rep"], ["Front Squat", 5, "rep"]], [["Snatch", 5, "rep"], ["Front Squat", 5, "rep"], ["Press", 5, "rep"], ["Front Squat", 5, "rep"], ["Clean", 5, "rep"], ["Front Squat", 5, "rep"]]], "weeks": [[3, 2.0], [4, 2.0], [5, 2.0], [3, 1.5], [4, 1.5], [5, 1.5]], "rm": ""}, "mkm9": {"title": "The “A & P", "days": [[["Press", 30, "sec"], ["Front Squat", 30, "sec"], ["Push Press", 30, "sec"]], [["Swing", 30, "sec"], ["Clean", 30, "sec"], ["High Pull", 30, "sec"], ["Snatch", 30, "sec"]], [["Front Squat", 30, "sec"], ["Press", 30, "sec"], ["Front Squat", 30, "sec"], ["Push Press", 30, "sec"]], [["Swing", 30, "sec"], ["High Pull", 30, "sec"], ["Snatch", 30, "sec"]]], "weeks": [[3, 2.0], [4, 2.0], [5, 2.0], [3, 1.5], [4, 1.5], [5, 1.5]], "rm": ""}, "mkm10": {"title": "More Core.", "days": [[["Links: Get Up", 2, "rep"], ["Links: Press", 2, "rep"], ["Links: Windmill", 2, "rep"], ["Links: Overhead Squat", 2, "rep"], ["Links: Sots Press (optional)", 2, "rep"], ["Links: Press", 2, "rep"], ["Links: Snatch", 2, "rep"], ["Rechts: Snatch", 2, "rep"], ["Rechts: Press", 2, "rep"], ["Rechts: Sots Press (optional)", 2, "rep"], ["Rechts: Overhead Squat", 2, "rep"], ["Rechts: Press", 2, "rep"], ["Rechts: Windmill", 2, "rep"], ["Rechts: Press", 2, "rep"], ["Rechts: Get Up", 2, "rep"]]], "weeks": [[1, 0]], "rm": ""}, "mkm11": {"title": "Oh Row You Don’t!", "days": [[["Row", 6, "rep"], ["Clean", 6, "rep"], ["Front Squat", 6, "rep"]], [["Row", 6, "rep"], ["Clean", 6, "rep"], ["Front Squat", 6, "rep"], ["Snatch", 6, "rep"], ["Push Press", 6, "rep"]], [["Row", 6, "rep"], ["Clean", 6, "rep"], ["Front Squat", 6, "rep"], ["Press", 6, "rep"]]], "weeks": [[3, 2.0], [4, 2.0], [5, 2.0], [4, 2.0], [5, 2.0], [6, 2.0]], "rm": ""}, "mkm12": {"title": "Clean ‘Em Up” 2.0", "days": [[["Clean", 6, "rep"], ["Press", 6, "rep"], ["Snatch", 6, "rep"], ["Front Squat", 6, "rep"]], [["Clean", 6, "rep"], ["Snatch", 6, "rep"], ["Jerk", 6, "rep"], ["Front Squat", 6, "rep"], ["Swing", 6, "rep"]], [["Clean", 6, "rep"], ["Front Squat", 6, "rep"], ["Snatch", 6, "rep"], ["Press", 6, "rep"], ["Swing", 6, "rep"], ["Row", 6, "rep"]]], "weeks": [[3, 2.0], [4, 2.0], [5, 2.0], [3, 1.5], [4, 1.5], [5, 1.5], [3, 1.0], [4, 1.0], [5, 1.0]], "rm": "Press 10RM"}, "mkm13": {"title": "Lucky 13", "days": [[["Swing", 5, "rep"], ["Clean", 5, "rep"], ["Alternating Reverse Lunge", 5, "per leg"], ["See-Saw Press", 5, "rep"]], [["Clean", 5, "rep"], ["Press", 5, "rep"], ["Front Squat", 5, "rep"]], [["Snatch", 5, "rep"], ["Press", 5, "rep"], ["Alternating Reverse Lunge", 5, "per leg"], ["Clean", 5, "rep"], ["Front Squat", 5, "rep"]]], "weeks": [[3, 2.0], [4, 2.0], [5, 2.0], [4, 1.5], [5, 1.5], [6, 1.5]], "rm": "Press 8RM"}, "mkm14": {"title": "Oh Row You Don’t, 2.0", "days": [[["Row", 20, "sec"], ["Clean", 20, "sec"], ["Press", 20, "sec"], ["Snatch", 20, "sec"], ["Front Squat", 20, "sec"]], [["Renegade Row", 20, "sec"], ["Clean", 20, "sec"], ["Front Squat", 20, "sec"], ["Snatch", 20, "sec"], ["Press", 20, "sec"], ["Swing", 20, "sec"], ["Row", 20, "sec"]], [["Row", 20, "sec"], ["Snatch", 20, "sec"], ["Press", 20, "sec"], ["Clean", 20, "sec"], ["Front Squat", 20, "sec"], ["Row", 20, "sec"]]], "weeks": [[3, 2.0], [3, 1.5], [3, 1.0], [4, 2.0], [4, 1.5], [4, 1.0]], "rm": ""}, "mkm15": {"title": "You Don’t Know Squat 2.0", "days": [[["Front Squat", 3, "rep"], ["Swing", 3, "rep"], ["Front Squat", 3, "rep"], ["Clean", 3, "rep"]], [["Front Squat", 3, "rep"], ["Clean", 3, "rep"], ["Front Squat", 3, "rep"], ["Press", 3, "rep"], ["Front Squat", 3, "rep"], ["Swing", 3, "rep"]], [["Front Squat", 3, "rep"], ["Snatch", 3, "rep"], ["Front Squat", 3, "rep"], ["Press", 3, "rep"], ["Front Squat", 3, "rep"], ["Clean", 3, "rep"], ["Front Squat", 3, "rep"]]], "weeks": [[3, 2.0], [4, 2.0], [5, 2.0], [3, 1.5], [4, 1.5], [5, 1.5], [3, 1.0], [4, 1.0], [5, 1.0]], "rm": ""}, "mkm16": {"title": "Sir Snatch-a-lot", "days": [[["Snatch", 6, "rep"], ["Press", 6, "rep"], ["Front Squat", 6, "rep"]], [["Snatch", 6, "rep"], ["Press", 6, "rep"], ["Clean", 6, "rep"], ["Front Squat", 6, "rep"], ["Swing", 6, "rep"]], [["Snatch", 6, "rep"], ["Press", 6, "rep"], ["Front Squat", 6, "rep"], ["Snatch", 6, "rep"]]], "weeks": [[3, 2.0], [4, 2.0], [5, 2.0], [4, 2.0], [5, 2.0], [6, 2.0]], "rm": ""}, "mkm17": {"title": "The Upper Back Attack", "days": [[["Swing", 5, "rep"], ["Clean", 5, "rep"], ["Press", 5, "rep"], ["Snatch", 5, "rep"], ["Front Squat", 5, "rep"]], [["High Pull", 5, "rep"], ["Snatch", 5, "rep"], ["Press", 5, "rep"]], [["Swing", 5, "rep"], ["High Pull", 5, "rep"], ["Snatch", 5, "rep"], ["Front Squat", 5, "rep"]]], "weeks": [[4, 2.0], [5, 2.0], [6, 2.0], [5, 1.5], [6, 1.5], [7, 1.5]], "rm": "Press 10RM"}, "mkm18": {"title": "The Universe", "days": [[["Swing", 5, "rep"], ["Clean", 5, "rep"], ["Swing", 5, "rep"], ["Snatch", 5, "rep"], ["Swing", 5, "rep"]], [["Swing", 5, "rep"], ["Front Squat", 5, "rep"], ["Swing", 5, "rep"], ["Press", 5, "rep"], ["Swing", 5, "rep"]], [["Swing", 5, "rep"], ["Clean", 5, "rep"], ["Swing", 5, "rep"], ["Snatch", 5, "rep"], ["Swing", 5, "rep"], ["High Pull", 5, "rep"], ["Swing", 5, "rep"]]], "weeks": [[3, 1.5], [4, 1.5], [5, 1.5], [3, 1.0], [4, 1.0], [5, 1.0]], "rm": ""}, "mkm19": {"title": "Jerk Werk", "days": [[["Clean", 0, "rep"], ["Jerk", 0, "rep"], ["Front Squat", 0, "rep"], ["Jerk", 0, "rep"]], [["Clean", 0, "rep"], ["Jerk", 0, "rep"], ["Snatch", 0, "rep"], ["Jerk", 0, "rep"], ["Front Squat", 0, "rep"]], [["Clean", 0, "rep"], ["Jerk", 0, "rep"], ["Snatch", 0, "rep"], ["Jerk", 0, "rep"], ["Front Squat", 0, "rep"], ["Jerk", 0, "rep"]]], "weeks": [[8, 2], [8, 1.5], [8, 1], [10, 2], [10, 1.5], [10, 1]], "rm": "Double Snatch 10RM"}, "mkm20": {"title": "Herky Jerky", "days": [[["Front Squat", 6, "rep"], ["Jerk", 6, "rep"], ["Clean", 6, "rep"], ["Jerk", 6, "rep"]], [["Jerk", 6, "rep"], ["Clean", 6, "rep"], ["Jerk", 6, "rep"]], [["Clean", 6, "rep"], ["Jerk", 6, "rep"], ["Front Squat", 6, "rep"], ["Snatch", 6, "rep"], ["Jerk", 6, "rep"]]], "weeks": [[3, 2.0], [4, 2.0], [5, 2.0], [3, 1.5], [4, 1.5], [5, 1.5], [3, 1.0], [4, 1.0], [5, 1.0]], "rm": "Jerk 12RM"}};
+const weeks = {g10:4,g11:4,g12:4,g2:4,g3:4,easy:8,simple:5,s1:8,s2:16,s3:5,lc:9,lc2:9,ksk:9,ksk2:9,...muscle,...Object.fromEntries(Object.entries(mkm).map(([key,value])=>[key,value.weeks.length]))};
+const transitions = {g3:'g10',g10:'g11',g11:'g12',s1:'s2',s2:'s3',km0:'km1',km1:'km2'};
 const defaults = {program:'g10',week:1,day:1,duration:20,dfs:false,weights:{},last:null};
 const storageKey = 'geoff-training-v1';
 let prefs = {...defaults};
 try { prefs = {...defaults,...JSON.parse(localStorage.getItem(storageKey))}; } catch {}
+if(!Object.hasOwn(weeks,prefs.program)) prefs={...prefs,program:'g10',week:1,day:1};
 const save = () => {try {localStorage.setItem(storageKey,JSON.stringify(prefs));} catch {}};
-const dayCount = (p,w) => p==='simple' && w===5 ? 2 : 3;
+const dayCount = (p,w) => mkm[p]?.days.length ?? (p==='simple' && w===5 ? 2 : 3);
 const weightKey = p => giant[p] && p!=='g3' ? 'giant10' : strong[p] ? 'strong' : p;
 function plan(p,w,d,minutes,includeDfs) {
   const i=d-1, j=w-1;
-  const base={exercise:'Clean & Press',rm:'10RM',seconds:minutes*60,rest:0,reps:[1],limit:0,dfs:0,guidance:'Rust naar behoefte.'};
+  const base={exercise:'Clean & Press',rm:'10RM',seconds:minutes*60,rest:0,reps:[1],limit:0,dfs:0,guidance:'Rest as needed.'};
+  if(mkm[p]){
+    const entry=mkm[p];
+    const [limit,ratio]=entry.weeks[j];
+    return {...base,mkm:true,rm:entry.rm||'Weight per kettlebell',seconds:0,limit,ratio,
+      ladder:p==='mkm19'?(w<=3?4:5):0,items:entry.days[i],guidance:p==='mkm9'&&d===2?'Take a rest day before Day 3.':''};
+  }
+  if(muscle[p]){
+    const phase2=p==='km2', warmup=p==='km0';
+    const sets=[4,5,6,5,6,7][j];
+    const limit=warmup?(d===3?[1,2,2,3,3,0]:[1,2,3,3,4,0])[j]:phase2&&d===3?[3,4,5,3,4,5][j]:sets-(d===3||phase2&&d===1?1:0);
+    const rest=warmup?120:phase2&&d===2?(w<=3?90:75):phase2&&d===3?(w<=3?150:120):(w<=3?120:90);
+    return {...base,rm:'Weight per kettlebell',seconds:0,reps:[5],
+      limit,rest,off:limit===0,complex:(phase2?musclePhase2:[medium,easyDay,heavy])[i]};
+  }
   if(giant[p]) return {...base,reps:giant[p][i],rm:p==='g3'?'5RM':'10RM'};
-  if(p==='easy') return {...base,reps:[(w<=4?[5,6,4]:[6,7,5])[i]],guidance:'RPE '+[7,8,'8,5',9][j%4]+' · Stop als tempo of techniek verandert.'};
+  if(p==='easy') return {...base,reps:[(w<=4?[5,6,4]:[6,7,5])[i]],guidance:'RPE '+[7,8,'8.5',9][j%4]+' · Stop if speed or technique changes.'};
   if(p==='simple') {
-    const s={...base,rm:'5RM',pair:true,seconds:1800,guidance:'Rust tussen beide oefeningen. Vertraag je? Rust langer.'};
+    const s={...base,rm:'5RM',pair:true,seconds:1800,guidance:'Rest between exercises. If you slow down, rest longer.'};
     if(w<5) return {...s,reps:simple[j][i],choice:w===4 && d!==2};
     return {...s,seconds:0,reps:[3],limit:6,test:d===2,pair:d===1};
   }
-  if(long[p]) return {...base,exercise:'Clean & Jerk',seconds:1200,reps:long[p][Math.floor(j/3)][i],perHand:true,rm:p==='lc'?'7–8RM per hand':'Min. 25 reps per hand',guidance:p==='lc2'?'Eén kettlebell. Rust tussen sets.':'Eén kettlebell. Rust naar behoefte.'};
+  if(single[p]) {
+    const advanced=p.endsWith('2');
+    return {...base,exercise:p.startsWith('ksk')?'Snatch':'Clean & Jerk',seconds:1200,
+      reps:single[p][Math.floor(j/3)][i],perHand:true,
+      rm:advanced?'Min. 25 reps per hand':'7–8RM per hand',
+      guidance:advanced?'Rest between sets. Switch hands without resting if possible.':'Rest as needed.'};
+  }
   const entry=strong[p][j].split(' ')[i];
   const [limit,reps]=entry.split('x').map(Number);
   const rest=p==='s2'?120:p==='s3'?120-10*(j+i):0;
-  return {...base,rm:'C&P-gewicht',seconds:0,test:entry==='RM',limit,reps:[reps],rest,dfs:includeDfs?squats[p][j][i]:0,guidance:''};
+  return {...base,rm:'C&P weight',seconds:0,test:entry==='RM',limit,reps:[reps],rest,dfs:includeDfs?squats[p][j][i]:0,guidance:''};
 }
 const fresh = () => ({status:'ready',sets:0,total:0,deadline:0,restUntil:0,extra:false,test:0});
 let run=fresh();
@@ -112,6 +146,8 @@ function movement(p) {
 }
 function following() {
   const {program:p,week:w,day:d}=prefs;
+  if(p==='km0' && w===5 && d===3) return ['km0',6,1];
+  if(p==='km0' && w===6) return ['km1',1,1];
   if(d<dayCount(p,w)) return [p,w,d+1];
   if(w<weeks[p]) return [p,w+1,1];
   if(transitions[p]) return [transitions[p],1,1];
@@ -126,6 +162,16 @@ function complete() {
   if(next) [prefs.program,prefs.week,prefs.day]=next;
   save();
 }
+function moreMuscleRound(p, now) {
+  const reps=p.ladder?run.sets%p.ladder+1:0;
+  const timed=p.items[0][2]==='sec';
+  const elapsed=run.workStart==null?0:(now-run.workStart)/1000;
+  const index=timed?Math.floor(elapsed/p.items[0][1]):-1;
+  return {timed,index,elapsed,items:p.items.map(([name,count,unit])=>{
+    const amount=reps||count;
+    return {label:amount+' '+(unit==='rep'?'×':unit==='sec'?'sec ·':'per leg ·')+' '+name,amount,unit};
+  })};
+}
 function show() {
   const result=run.status==='complete'?prefs.last:null;
   const p=result?plan(result.program,result.week,result.day,prefs.duration,prefs.dfs):current();
@@ -135,41 +181,64 @@ function show() {
   const left=run.deadline?secondsLeft(run.deadline):p.seconds;
   if(active && run.deadline && left===0){if(run.sets){complete();show();}else ready(false);return;}
   const test=p.test && run.sets===0;
+  $('start').textContent=p.off?'Go to Phase 1':'Start';
+  $('done').textContent=p.complex?'Round complete':'Set complete';
   const cap=p.test?1:p.limit;
   const weight=prefs.weights[weightKey(prefs.program)];
-  const phase=long[prefs.program]?' · Fase '+Math.ceil(prefs.week/3):'';
-  $('session').textContent=result?names[result.program]+' · Week '+result.week+' · Dag '+result.day:
-    names[prefs.program]+phase+' · Week '+prefs.week+' · Dag '+prefs.day;
-  $('instruction').textContent=result?'Training klaar':rest?'Rust':test?'Test je '+(prefs.program==='simple'?'Press-RM':'Clean & Press Rep Max'):
-    'Doe '+m.reps+' × '+m.exercise+(p.perHand?' per hand':'');
+  const round=p.mkm&&!result?moreMuscleRound(p,Date.now()):null;
+  const working=!!round&&run.workStart!=null;
+  const currentItem=working&&round.timed?round.items[round.index]:null;
+  const list=$('complex');
+  list.hidden=!!result||!(p.complex||round)||p.off;
+  const exercises=list.hidden?[]:round?round.items.map(item=>item.label):p.complex;
+  if(list.dataset.exercises!==exercises.join('|')){
+    list.dataset.exercises=exercises.join('|');
+    list.replaceChildren(...exercises.map(name=>{
+      const li=document.createElement('li');
+      li.textContent=name;
+      return li;
+    }));
+  }
+  const phase=single[prefs.program]?' · Phase '+Math.ceil(prefs.week/3):'';
+  $('session').textContent=result?names[result.program]+' · Week '+result.week+' · Day '+result.day:
+    names[prefs.program]+phase+' · Week '+prefs.week+' · '+(p.complex?['Monday','Wednesday','Friday'][prefs.day-1]:'Day '+prefs.day);
+  $('instruction').textContent=result?'Workout complete':rest?'Rest':test?'Test your '+(prefs.program==='simple'?'Press RM':'Clean & Press Rep Max'):
+    p.off?'Rest week':p.complex?'Do '+m.reps+' reps per exercise':'Do '+m.reps+' × '+m.exercise+(p.perHand?' per hand':'');
+  if(round){
+    $('instruction').textContent=rest?'Rest':currentItem?currentItem.label:
+      working&&round.timed?'Set complete':working?'Do the exercises in order':'Set '+(run.sets+1)+' of '+p.limit;
+  }
   const prescription=[];
-  if(!result){
+  if(!result && !p.off){
     if(!m.dfs) prescription.push((weight?weight+' kg · ':'')+p.rm);
-    if(m.dfs) prescription.push('3 sets van '+m.reps);
-    else if(p.limit) prescription.push(p.pair?'3 × 3 per oefening':p.limit+' sets van '+p.reps[0]);
-    else if(p.reps.length>1) prescription.push(p.reps.join(' → ')+(p.choice?' · laatste trede optioneel':''));
+    if(m.dfs) prescription.push('3 sets of '+m.reps);
+    else if(p.limit && !round) prescription.push(p.pair?'3 × 3 per exercise':p.limit+' sets of '+p.reps[0]);
+    else if(p.reps.length>1) prescription.push(p.reps.join(' → ')+(p.choice?' · last rung optional':''));
   }
   $('prescription').textContent=prescription.join(' · ');
-  $('guidance').textContent=result?'':test && prefs.program==='simple'?'Gebruik hetzelfde gewicht of ga zwaarder.':m.dfs?'Rust naar behoefte.':p.rest?p.rest+' sec rust tussen C&P-sets.':p.guidance;
-  $('clock').hidden=!!result||!(rest||p.seconds);
-  $('clock').textContent=timeLabel(rest||left);
+  $('guidance').textContent=result?'':test && prefs.program==='simple'?'Use the same weight or go heavier.':m.dfs?'Rest as needed.':p.off?'':p.rest?p.rest+(p.complex?' sec rest between rounds.':' sec rest between C&P sets.'):p.guidance;
+  if(round && p.ratio) $('guidance').textContent='Work : rest 1:'+String(p.ratio)+(p.guidance?' · '+p.guidance:'');
+  $('clock').hidden=!!result||!(rest||p.seconds||working);
+  $('clock').textContent=timeLabel(rest||(currentItem?currentItem.amount-Math.floor(round.elapsed)%currentItem.amount:working?Math.floor(round.elapsed):left));
   const count=m.dfs?run.sets-cap:run.sets;
   $('progress').textContent=result?result.sets+' sets · '+result.reps+' reps'+(result.test?' · RM '+result.test+' reps':''):
     active && !test ? count+(m.dfs?' / 3':p.limit?' / '+p.limit:'')+' sets · '+run.total+' reps':'';
+  if(round || (result && p.mkm)) $('progress').textContent=(result?.sets??run.sets)+' / '+p.limit+' sets';
   $('testLabel').hidden=!(active&&test);
   $('config').querySelectorAll('input,select').forEach(el=>el.disabled=active);
   $('settings').hidden=!!result;
-  $('start').hidden=run.status!=='ready';
-  $('done').hidden=!active;
+  $('start').hidden=run.status!=='ready'||!!round;
+  $('done').hidden=!(active||round);
   $('done').disabled=!!rest;
-  $('done').textContent=test?'RM opslaan':'Set klaar';
+  $('done').textContent=test?'Save RM':p.complex?'Round complete':'Set complete';
+  if(round) $('done').textContent=rest?'Rest':working?'Set complete':'Start set';
   $('variant').hidden=!(active&&p.choice);
-  $('variant').textContent=prefs.day===1?(run.extra?'Ladder zonder 5':'Voeg trede 5 toe'):(run.extra?'Alleen sets van 3':'Wissel 3 en 4 af');
+  $('variant').textContent=prefs.day===1?(run.extra?'Skip the 5-rep rung':'Add the 5-rep rung'):(run.extra?'Sets of 3 only':'Alternate 3 and 4');
   $('finish').hidden=!(active&&p.seconds);
   $('reset').hidden=run.status==='ready';
-  $('reset').textContent=result?'Instellingen':'Annuleren';
+  $('reset').textContent=result?'Settings':'Cancel';
   $('next').hidden=!result?.next;
-  if(result?.next) $('next').textContent=result.next[0]!==result.program?'Naar '+names[result.next[0]]:'Volgende training';
+  if(result?.next) $('next').textContent=result.next[0]!==result.program?'Go to '+names[result.next[0]]:'Next workout';
 }
 $('config').addEventListener('submit',e=>e.preventDefault());
 $('config').addEventListener('change',e=>{
@@ -184,13 +253,32 @@ $('config').addEventListener('change',e=>{
 });
 $('start').onclick=()=>{
   const p=current();
+  if(p.off){complete();show();return;}
   run={...fresh(),status:'active',deadline:p.seconds?Date.now()+p.seconds*1000:0};
   $('settings').open=false;
   $('testReps').value='';
   show();
 };
 $('done').onclick=()=>{
-  if(run.status!=='active'||secondsLeft(run.restUntil))return;
+  if(run.status==='complete'||secondsLeft(run.restUntil))return;
+  const selected=current();
+  if(selected.mkm){
+    const now=Date.now();
+    if(run.workStart==null){
+      run.status='active';
+      run.workStart=now;
+      $('settings').open=false;
+    } else {
+      const elapsed=now-run.workStart;
+      run.workStart=null;
+      run.sets++;
+      if(run.sets===selected.limit) complete();
+      else run.restUntil=now+Math.ceil(elapsed*selected.ratio/1000)*1000;
+    }
+    show();
+    return;
+  }
+  if(run.status!=='active')return;
   if(run.deadline && !secondsLeft(run.deadline)){show();return;}
   const p=current(), m=movement(p), testing=p.test && run.sets===0;
   if(testing){
@@ -198,7 +286,7 @@ $('done').onclick=()=>{
     run.test=$('testReps').valueAsNumber;
   }
   run.sets++;
-  run.total+=testing?run.test:m.reps*(p.perHand?2:1);
+  run.total+=testing?run.test:m.reps*(p.complex?.length??(p.perHand?2:1));
   const max=p.test?1:p.limit;
   if(max && run.sets>=max+(p.dfs?3:0))complete();
   else if(p.rest && !testing && run.sets<max)run.restUntil=Date.now()+p.rest*1000;
@@ -212,11 +300,16 @@ function ready(openSettings) {
   $('settings').open=openSettings;
   show();
 }
-$('reset').onclick=()=>{if(run.status==='active' && !confirm('Training annuleren?'))return;ready(true);};
+$('reset').onclick=()=>{if(run.status==='active' && !confirm('Cancel workout?'))return;ready(true);};
 $('next').onclick=()=>ready(prefs.last?.program==='g3' && prefs.program==='g10' && !prefs.weights.giant10);
 syncSettings();show();
 setInterval(()=>{if(run.status==='active')show();},250);
 </script>
 </html>
+
+
+
+
+
 
 
